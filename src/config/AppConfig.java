@@ -1,21 +1,23 @@
 package config;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-/**
- * Global Configuration State Manager - PPDB SMPIT AL FADL
- * Mengelola cache memori konfigurasi aktif secara realtime (Fixed Mapping).
- * @author Rivaldi
- */
 public class AppConfig {
-    private static String tahunAjaranAktif = "2026/2027"; // Fallback default ter-update
 
-    /**
-     * Memperbarui cache memori langsung dari records tabel MySQL ter-aktif
-     */
+    private static String tahunAjaranAktif = "2026/2027";
+
+    private AppConfig() {
+    }
+
     public static void refreshActivePeriod() {
-        // 🎯 FIXED SINKRONISASI: Menggunakan 'status_aktif = 1' sesuai kolom asli tbl_tahun_ajaran
-        String sql = "SELECT tahun_ajaran FROM tbl_tahun_ajaran WHERE status_aktif = 1 LIMIT 1";
+        String sql = 
+            "SELECT tahun_ajaran " +
+            "FROM tbl_tahun_ajaran " +
+            "WHERE status_aktif = 1 " +
+            "LIMIT 1";
         
         try (Connection conn = DatabaseConfig.getKoneksi();
              Statement st = conn.createStatement();
@@ -26,7 +28,9 @@ public class AppConfig {
             }
             
         } catch (SQLException e) {
-            System.err.println("[CONFIG ERROR] Gagal memuat konfigurasi aktif: " + e.getMessage());
+            System.err.println(
+                "[CONFIG ERROR] " + e.getMessage()
+            );
         }
     }
 

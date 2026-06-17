@@ -9,7 +9,6 @@ import java.net.URL;
 import pmb.LoginFrame;
 
 /**
- * @author Rivaldi
  * Role: Senior Java Swing Developer / Software Architect
  * Project: Integrated Landing Page Overhaul - SPMB SMPIT AL FADL (2026 Modern Standard)
  */
@@ -71,7 +70,6 @@ public class LandingPage extends JFrame {
         navbar.setOpaque(false); 
         bgPanel.add(navbar);
 
-        // REVISI: Tombol FAQ menggunakan CustomButton (Kanan Atas)
         CustomButton btnFAQ = new CustomButton("FAQ", clrPutihTransparan, clrDarkSlate);
         btnFAQ.setBounds(700, 25, 110, 42); 
         btnFAQ.setRadius(15);
@@ -82,7 +80,6 @@ public class LandingPage extends JFrame {
         });
         navbar.add(btnFAQ);
 
-        // REVISI: Tombol LOGIN menggunakan CustomButton (Kanan Atas)
         CustomButton btnLoginNav = new CustomButton("LOGIN", clrBlueMain, Color.WHITE);
         btnLoginNav.setBounds(830, 25, 130, 42);
         btnLoginNav.setRadius(15);
@@ -95,7 +92,6 @@ public class LandingPage extends JFrame {
 
         // --- MIDDLE CTA AREA ---
 
-        // REVISI: Tombol DAFTAR SEKARANG menggunakan CustomButton (CTA Utama Tengah)
         CustomButton btnDaftar = new CustomButton("Daftar Sekarang", clrGreenMain, Color.WHITE);
         btnDaftar.setBounds(230, 300, 260, 55); 
         btnDaftar.setRadius(20);
@@ -108,7 +104,6 @@ public class LandingPage extends JFrame {
         });
         bgPanel.add(btnDaftar);
 
-        // REVISI: Tombol PANDUAN PENDAFTARAN menggunakan CustomButton (Tengah)
         CustomButton btnPanduan = new CustomButton("Panduan Pendaftaran", clrPutihTransparan, clrBlueMain);
         btnPanduan.setBounds(510, 300, 260, 55);
         btnPanduan.setRadius(20);

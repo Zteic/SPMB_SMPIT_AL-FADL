@@ -3,21 +3,14 @@ package models;
 import java.io.Serializable;
 
 /**
- * @author Rivaldi (Revised by AI Assistant)
  * File: Siswa.java
  * Fungsi: Model utama representasi data siswa (CORE ENTITY MODERN)
  */
 public class Siswa implements Serializable {
-
-    // =========================
     // IDENTITAS DATABASE
-    // =========================
     private int idSiswa;
     private int idUser;
-
-    // =========================
     // DATA IDENTITAS DASAR
-    // =========================
     private String nik;
     private String nisn;
     private String namaLengkap;
@@ -25,31 +18,19 @@ public class Siswa implements Serializable {
     private String tanggalLahir;
     private String jenisKelamin;
     private String agama;
-
-    // =========================
     // DATA SEKOLAH
-    // =========================
     private String sekolahAsal;
     private String idJalur;
-
-    // =========================
     // DATA ALAMAT
-    // =========================
     private String provinsi;
     private String kotaKabupaten;
     private String kecamatan;
     private String kelurahan;
     private String asalDaerah;
-
-    // =========================
     // DATA ADMINISTRASI
-    // =========================
     private String nomorPendaftaran;
     private String statusPendaftaran;
-
-    // =========================
     // CONSTRUCTOR
-    // =========================
     public Siswa() {
     }
 
@@ -58,10 +39,7 @@ public class Siswa implements Serializable {
         this.nik = nik;
         this.namaLengkap = namaLengkap;
     }
-
-    // =========================
     // GETTER & SETTER
-    // =========================
     public int getIdSiswa() {
         return idSiswa;
     }

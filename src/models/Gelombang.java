@@ -71,3 +71,4 @@ public class Gelombang implements Serializable {
         this.status = status;
     }
 }
+

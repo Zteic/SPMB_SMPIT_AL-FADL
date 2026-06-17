@@ -18,7 +18,6 @@ import java.util.Vector;
 import views.admin.EditDataSiswaDialog;
 
 /**
- * Antarmuka Manajemen Data Pendaftar (UI Overhauled - Fixed Compilation)
  * Menggunakan arsitektur MVC dan JDBC terintegrasi ke MySQL.
  * * @author Rivaldi
  */

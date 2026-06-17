@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 /**
- * @author Rivaldi
  * Dioptimalkan: Efek transparan tanpa menghilangkan Icon Unicode dan Teks Menu
  */
 public class ModernCard extends JButton {

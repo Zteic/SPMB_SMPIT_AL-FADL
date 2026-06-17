@@ -5,7 +5,6 @@ import java.awt.*;
 import java.net.URL;
 
 /**
- * @author Rivaldi
  * Menampilkan Gambar Program Unggulan secara Full Size
  */
 public class ProgramUnggulan extends JFrame {

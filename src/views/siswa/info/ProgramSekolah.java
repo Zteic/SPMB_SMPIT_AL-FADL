@@ -5,7 +5,6 @@ import java.awt.*;
 import java.net.URL;
 
 /**
- * @author Rivaldi
  * Menampilkan Gambar Program Sekolah secara Full Size
  */
 public class ProgramSekolah extends JFrame {

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Rivaldi
  * File: MasterDataController.java
  * Fungsi: Controller Pengelola Master Data PPDB (Tipe Data status_aktif Disinkronkan ke INT)
  */
@@ -30,7 +29,6 @@ public class MasterDataController {
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                // 🎯 SINKRONISASI: Membaca status_aktif menggunakan rs.getInt() bukan rs.getString()
                 list.add(new TahunAjaran(
                         rs.getInt("id_tahun"),
                         rs.getString("tahun_ajaran"),
@@ -127,7 +125,6 @@ public class MasterDataController {
         String sql = "INSERT INTO tbl_tahun_ajaran (tahun_ajaran, status_aktif) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, item.getTahunAjaran());
-            // 🎯 SINKRONISASI: Mengirim data status_aktif menggunakan ps.setInt() angka (1 atau 0)
             ps.setInt(2, item.getStatusAktif());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -142,7 +139,6 @@ public class MasterDataController {
         String sql = "UPDATE tbl_tahun_ajaran SET tahun_ajaran = ?, status_aktif = ? WHERE id_tahun = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, item.getTahunAjaran());
-            // 🎯 SINKRONISASI: Mengubah data status_aktif menggunakan ps.setInt() angka (1 atau 0)
             ps.setInt(2, item.getStatusAktif());
             ps.setInt(3, item.getIdTahun());
             return ps.executeUpdate() > 0;

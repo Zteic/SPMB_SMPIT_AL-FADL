@@ -19,7 +19,6 @@ import java.util.List;
 /**
  * Pusat Konfigurasi Data Master - Modern Enterprise View
  * Mendukung Realtime Dynamic Topbar UI Sync & Unified Upsert Action Button.
- * @author Rivaldi
  */
 public class MasterDataPanel extends JPanel {
 
@@ -146,7 +145,6 @@ public class MasterDataPanel extends JPanel {
         cmbStatusTahun = createStyledComboBox(new String[]{"AKTIF", "NONAKTIF"});
         gbc.gridy = 3; pnlForm.add(cmbStatusTahun, gbc);
 
-        // 🎯 FIXED TOMBOL: Menggunakan tombol SIMPAN terpadu (Upsert) untuk Tahun Ajaran
         gbc.gridy = 4; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.anchor = GridBagConstraints.SOUTH;
         pnlForm.add(createActionButtonsRow(e -> handleUpsertTahunAjaran(), e -> deleteTahunAjaran()), gbc);
 
@@ -196,7 +194,6 @@ public class MasterDataPanel extends JPanel {
         cmbStatusGelombang = createStyledComboBox(new String[]{"AKTIF", "NON_AKTIF", "BUKA", "TUTUP"});
         gbc.gridy = 9; pnlForm.add(cmbStatusGelombang, gbc);
 
-        // 🎯 FIXED TOMBOL: Menggunakan tombol SIMPAN terpadu (Upsert) untuk Gelombang
         gbc.gridy = 10; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.anchor = GridBagConstraints.SOUTH;
         pnlForm.add(createActionButtonsRow(e -> handleUpsertGelombang(), e -> deleteGelombang()), gbc);
 
@@ -243,7 +240,6 @@ public class MasterDataPanel extends JPanel {
         cmbStatusJalur = createStyledComboBox(new String[]{"AKTIF", "TIDAK AKTIF"});
         gbc.gridy = 5; pnlForm.add(cmbStatusJalur, gbc);
 
-        // 🎯 FIXED TOMBOL: Menggunakan tombol SIMPAN terpadu (Upsert) untuk Jalur
         gbc.gridy = 6; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.anchor = GridBagConstraints.SOUTH;
         pnlForm.add(createActionButtonsRow(e -> handleUpsertJalur(), e -> deleteJalur()), gbc);
 
@@ -291,7 +287,6 @@ public class MasterDataPanel extends JPanel {
         gbc.gridy = 4; pnlForm.add(createInputLabel("Total Batas Kuota (Siswa)"), gbc);
         txtTotalKuota = createStyledTextField(); gbc.gridy = 5; pnlForm.add(txtTotalKuota, gbc);
 
-        gbc.gridy = 6; pnlForm.add(createInputLabel("Kuota Terisi Sementara"), gbc);
         txtKuotaTerisi = createStyledTextField(); gbc.gridy = 7; pnlForm.add(txtKuotaTerisi, gbc);
 
         gbc.gridy = 8; pnlForm.add(createInputLabel("Sisa Kuota Kamar"), gbc);
@@ -299,7 +294,6 @@ public class MasterDataPanel extends JPanel {
         txtSisaKuota.setBackground(new Color(241, 245, 249));
         gbc.gridy = 9; pnlForm.add(txtSisaKuota, gbc);
 
-        // 🎯 FIXED TOMBOL: Menggunakan tombol SIMPAN terpadu (Upsert) untuk Kuota
         gbc.gridy = 10; gbc.weighty = 1.0; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.anchor = GridBagConstraints.SOUTH;
         pnlForm.add(createActionButtonsRow(e -> handleUpsertKuota(), e -> deleteKuota()), gbc);
 
@@ -384,7 +378,6 @@ public class MasterDataPanel extends JPanel {
         return cb;
     }
 
-    // 🎯 REVISI TOTAL COMPONENT: Menghilangkan tombol "Ubah", menyisakan 3 tombol utama (SIMPAN, HAPUS, RESET)
     private JPanel createActionButtonsRow(java.awt.event.ActionListener upsertAction, java.awt.event.ActionListener delAction) {
         JPanel row = new JPanel(new GridLayout(1, 3, 8, 0)); 
         row.setOpaque(false);

@@ -463,7 +463,6 @@ public class PengaturanKuotaPanel extends JPanel {
         boolean sukses = seleksiController.eksekusiSeleksiOtomatis(passingGradeTerpilih);
         
         if (sukses) {
-            // 2. 🎯 FIX UTAMA: Panggil paksa tiga fungsi sinkronisasi visual agar JTable, ranking, 
             // serta kartu metrik (Total Diterima, Sisa Kuota) langsung berubah detik itu juga tanpa perlu klik tombol refresh lagi!
             muatSeluruhData();
             

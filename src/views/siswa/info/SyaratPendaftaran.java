@@ -6,7 +6,6 @@ import java.net.URL;
 import javax.swing.border.LineBorder;
 
 /**
- * @author Rivaldi
  * Jendela Otomatis Menyesuaikan Ukuran Asli Gambar Syarat Pendaftaran
  */
 public class SyaratPendaftaran extends JFrame {

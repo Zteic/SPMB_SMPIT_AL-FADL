@@ -1,14 +1,14 @@
 package views.components;
 
-import config.AppTheme;
-import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Color;
 import java.awt.LayoutManager;
+import java.awt.RenderingHints;
+import javax.swing.JPanel;
 
 public class RoundedPanel extends JPanel {
+
     private int radius;
     private Color backgroundColor;
 
@@ -31,14 +31,11 @@ public class RoundedPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         
-        // Anti-aliasing agar lengkungan halus
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-        // Shadow effect sederhana
         g2.setColor(new Color(0, 0, 0, 15));
         g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, radius, radius);
         
-        // Background utama
         g2.setColor(backgroundColor);
         g2.fillRoundRect(0, 0, getWidth() - 4, getHeight() - 4, radius, radius);
         

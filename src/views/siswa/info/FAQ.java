@@ -5,9 +5,7 @@ import java.awt.*;
 import javax.swing.border.LineBorder;
 
 /**
- * @author Rivaldi
  * Class FAQ untuk menampilkan pertanyaan umum pendaftaran
- * 🎯 VERSI REVISI: Sinkronisasi Konten PPDB SMPIT AL FADL + Fix Kontras Warna Tombol
  */
 public class FAQ extends JFrame {
 
@@ -46,7 +44,6 @@ public class FAQ extends JFrame {
         txtPane.setEditable(false);
         txtPane.setOpaque(false);
         
-        // 🎯 REVISI TOTAL KONTEN: Menyesuaikan parameter asli aplikasi SMPIT AL FADL (Modern HTML Layout)
         String htmlContent = "<html><body style='font-family: Segoe UI; font-size: 12px; color: #1e293b; margin: 15px;'>"
                 + "<div style='line-height: 1.7;'>"
                 
@@ -78,7 +75,6 @@ public class FAQ extends JFrame {
                 
                 + "<p style='margin-bottom: 15px;'>"
                 + "<b>Q: Apa yang harus dilakukan jika berkas saya berstatus DITOLAK?</b><br>"
-                + "<span style='color: #475569;'>A: Silakan periksa Catatan Revisi Panitia di bawah indikator berkas Anda. Lakukan perbaikan dokumen, "
                 + "lahu gunakan tombol <b>Upload Ulang Berkas</b> agar dokumen Anda masuk kembali ke antrean verifikasi admin.</span>"
                 + "</p>"
                 
@@ -97,7 +93,6 @@ public class FAQ extends JFrame {
         JButton btnOke = new JButton("SAYA MENGERTI");
         btnOke.setBounds(195, 460, 220, 45);
         btnOke.setBackground(hijauTombol);
-        btnOke.setForeground(Color.BLACK); // 🎯 FIX VISUAL: Mengubah teks menjadi PUTIH agar kontras dan terbaca jelas
         btnOke.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnOke.setOpaque(true);
         btnOke.setContentAreaFilled(true);

@@ -4,14 +4,14 @@ import dao.DashboardDAO;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * DashboardAnalyticsController
- * Controller untuk Admin Dashboard - MVC Pattern
- * Semua data dari MySQL via DashboardDAO, tanpa data dummy
- */
 public class DashboardAnalyticsController {
 
     private final DashboardDAO dao;
@@ -19,10 +19,6 @@ public class DashboardAnalyticsController {
     public DashboardAnalyticsController() {
         this.dao = new DashboardDAO();
     }
-
-    // =========================================================
-    // STAT METRICS (6 Cards)
-    // =========================================================
 
     public int getTotalPendaftar() {
         try {
@@ -73,9 +69,6 @@ public class DashboardAnalyticsController {
         }
     }
 
-    /**
-     * Get all 6 metrics in one call (optimized - single DB connection)
-     */
     public Map<String, Integer> getAllMetrics() {
         try {
             return dao.getStatMetrics();
@@ -84,10 +77,6 @@ public class DashboardAnalyticsController {
             return new HashMap<>();
         }
     }
-
-    // =========================================================
-    // CHART DATA
-    // =========================================================
 
     public Map<String, Integer> getJalurComposition() {
         try {
@@ -106,10 +95,6 @@ public class DashboardAnalyticsController {
             return new LinkedHashMap<>();
         }
     }
-
-    // =========================================================
-    // PANEL DATA
-    // =========================================================
 
     public List<Object[]> getLatestPendaftar() {
         return getLatestPendaftar(10);
@@ -191,22 +176,30 @@ public class DashboardAnalyticsController {
         }
     }
 
-    // =========================================================
-    // UTILITY: Relative Time Formatting
-    // =========================================================
-
     public String formatRelativeTime(Timestamp createdAt) {
-        if (createdAt == null) return "-";
+        if (createdAt == null) {
+            return "-";
+        }
+        
         long diffMs = System.currentTimeMillis() - createdAt.getTime();
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diffMs);
         long hours = TimeUnit.MILLISECONDS.toHours(diffMs);
 
-        if (minutes < 1) return "Baru saja";
-        if (minutes < 60) return minutes + " menit lalu";
-        if (hours < 24) return hours + " jam lalu";
+        if (minutes < 1) {
+            return "Baru saja";
+        }
+        if (minutes < 60) {
+            return minutes + " menit lalu";
+        }
+        if (hours < 24) {
+            return hours + " jam lalu";
+        }
 
-        // Older than 24 hours: format as date
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy HH:mm", new Locale("id", "ID"));
+        SimpleDateFormat sdf = new SimpleDateFormat(
+            "dd MMM yyyy HH:mm", 
+            new Locale("id", "ID")
+        );
         return sdf.format(createdAt);
     }
 }
+

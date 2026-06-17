@@ -2,13 +2,6 @@ package models;
 
 import java.sql.Timestamp;
 
-/**
- * Auditlog Model
- * SPMB SMPIT AL FADL
- *
- * Representasi tabel audit_logs
- * untuk mencatat semua aktivitas user
- */
 public class Auditlog {
 
     private int idLog;
@@ -19,9 +12,6 @@ public class Auditlog {
     private String rincian;
     private Timestamp waktuKejadian;
 
-    // ======================================================
-    // CONSTRUCTOR
-    // ======================================================
     public Auditlog() {
     }
 
@@ -35,10 +25,6 @@ public class Auditlog {
         this.rincian = rincian;
         this.waktuKejadian = waktuKejadian;
     }
-
-    // ======================================================
-    // GETTER & SETTER
-    // ======================================================
 
     public int getIdLog() {
         return idLog;
@@ -96,9 +82,6 @@ public class Auditlog {
         this.waktuKejadian = waktuKejadian;
     }
 
-    // ======================================================
-    // DEBUG PRINT
-    // ======================================================
     @Override
     public String toString() {
         return "Auditlog{" +

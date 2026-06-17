@@ -45,10 +45,7 @@ public class Pendaftar {
     private int nilaiSeleksiInternal;
 
     private Timestamp tanggalDaftar;
-
-    // ======================================================
     // CONSTRUCTOR
-    // ======================================================
     public Pendaftar() {}
 
     public Pendaftar(int idPendaftaran,
@@ -63,10 +60,7 @@ public class Pendaftar {
         this.namaLengkap = namaLengkap;
         this.statusPendaftaran = statusPendaftaran;
     }
-
-    // ======================================================
     // GETTER & SETTER
-    // ======================================================
 
     public int getIdPendaftaran() {
         return idPendaftaran;

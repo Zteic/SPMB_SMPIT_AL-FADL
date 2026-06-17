@@ -1,21 +1,16 @@
 package models;
 
-/**
- * File: Berkas.java
- * Fungsi: Representasi dokumen siswa (SPMB)
- */
 public class Berkas {
 
     private String idSiswa;
-
     private String aktaKelahiran;
     private String ktpOrtu;
     private String fotoAnak;
     private String spjm;
+    private String statusVerifikasi;
 
-    private String statusVerifikasi; // PENDING / LENGKAP / TIDAK_LENGKAP
-
-    public Berkas() {}
+    public Berkas() {
+    }
 
     public String getIdSiswa() {
         return idSiswa;

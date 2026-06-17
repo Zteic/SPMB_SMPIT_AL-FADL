@@ -89,3 +89,4 @@ public class Kuota implements Serializable {
         this.namaJalur = namaJalur;
     }
 }
+

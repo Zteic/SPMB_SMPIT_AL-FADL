@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.border.LineBorder;
 
 /**
- * @author Rivaldi
  */
 public class PanduanDaftar extends JFrame {
 

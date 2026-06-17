@@ -1,18 +1,23 @@
 package dao;
 
 import config.DatabaseConfig;
-import java.sql.*;
-import java.util.ArrayList;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 public class SiswaDAO {
 
     public Vector<Vector<Object>> fetchSiswaByStatus(String statusFilter) {
         Vector<Vector<Object>> data = new Vector<>();
-        String sql = "SELECT s.id_siswa, s.nomor_pendaftaran, b.nama_lengkap, b.nik, j.nama_jalur, s.status_pendaftaran, s.created_at "
-                + "FROM tbl_siswa s "
-                + "LEFT JOIN tbl_biodata_siswa b ON s.id_siswa = b.id_siswa "
-                + "LEFT JOIN tbl_jalur j ON s.id_jalur = j.id_jalur";
+        String sql = 
+            "SELECT s.id_siswa, s.nomor_pendaftaran, b.nama_lengkap, b.nik, " +
+            "j.nama_jalur, s.status_pendaftaran, s.created_at " +
+            "FROM tbl_siswa s " +
+            "LEFT JOIN tbl_biodata_siswa b ON s.id_siswa = b.id_siswa " +
+            "LEFT JOIN tbl_jalur j ON s.id_jalur = j.id_jalur";
         
         if (statusFilter != null && !statusFilter.equalsIgnoreCase("ALL")) {
             sql += " WHERE s.status_pendaftaran = ?";
@@ -33,10 +38,9 @@ public class SiswaDAO {
                     row.add(rs.getString("nomor_pendaftaran"));
                     row.add(rs.getString("nama_lengkap"));
                     
-                    // Masking NIK Keamanan Data Operator
                     String rawNik = rs.getString("nik");
                     String maskedNik = (rawNik != null && rawNik.trim().length() >= 4) ? 
-                   rawNik.trim().substring(0, 4) + "************" : "****************";
+                        rawNik.trim().substring(0, 4) + "************" : "****************";
                     
                     row.add(maskedNik);
                     row.add(rs.getString("nama_jalur"));
@@ -55,9 +59,8 @@ public class SiswaDAO {
         Connection conn = null;
         try {
             conn = DatabaseConfig.getKoneksi();
-            conn.setAutoCommit(false); // Mengunci sesi transaksi transaksi (Poin 14)
+            conn.setAutoCommit(false);
 
-            // Susunan perintah penghapusan sekuensial anti-orphan data
             String[] queries = {
                 "DELETE FROM tbl_seleksi WHERE id_siswa = ?",
                 "DELETE FROM tbl_berkas WHERE id_siswa = ?",
@@ -76,13 +79,13 @@ public class SiswaDAO {
                 }
             }
 
-            conn.commit(); // Eksekusi Commit jika seluruh query berhasil tanpa interupsi
+            conn.commit();
             return true;
         } catch (SQLException e) {
             if (conn != null) {
                 try {
-                    conn.rollback(); // Batalkan semua aksi jika salah satu tabel gagal dihapus
-                    System.err.println("[TRANSACTION ROLLBACK] Proses hapus dibatalkan: " + e.getMessage());
+                    conn.rollback();
+                    System.err.println("[TRANSACTION ROLLBACK] " + e.getMessage());
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -90,9 +93,11 @@ public class SiswaDAO {
             return false;
         } finally {
             if (conn != null) {
-                try { conn.close(); } catch (SQLException ignored) {}
+                try { 
+                    conn.close(); 
+                } catch (SQLException ignored) {
+                }
             }
         }
     }
-    
 }

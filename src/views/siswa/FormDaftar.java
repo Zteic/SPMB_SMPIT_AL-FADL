@@ -449,7 +449,6 @@ public class FormDaftar extends JFrame {
         return true;
     }
 
-    // 🎯 REVISI TIMING RINGKASAN: Membaca murni inputan text field secara dinamis dan real-time
     private void generateReviewText() {
         StringBuilder sb = new StringBuilder();
         sb.append("=== RINGKASAN FORMULIR PENDAFTARAN ===\n\n");

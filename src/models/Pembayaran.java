@@ -3,30 +3,20 @@ package models;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-/**
- * Pembayaran SPMB SMPIT AL FADL
- * Model transaksi keuangan siswa
- */
 public class Pembayaran {
 
     private int idPembayaran;
     private int idSiswa;
-
     private String nomorInvoice;
     private BigDecimal nominal;
-
-    private String metode; // CASH / TRANSFER / VA / QRIS
+    private String metode;
     private String buktiBayar;
-
-    private String status; // PENDING / LUNAS / DITOLAK / VERIFIKASI
-
+    private String status;
     private Timestamp tanggalBayar;
     private Timestamp tanggalVerifikasi;
 
-    // =====================================
-    // CONSTRUCTOR
-    // =====================================
-    public Pembayaran() {}
+    public Pembayaran() {
+    }
 
     public Pembayaran(int idSiswa, String nomorInvoice, BigDecimal nominal, String status) {
         this.idSiswa = idSiswa;
@@ -34,10 +24,6 @@ public class Pembayaran {
         this.nominal = nominal;
         this.status = status;
     }
-
-    // =====================================
-    // GETTER & SETTER
-    // =====================================
 
     public int getIdPembayaran() {
         return idPembayaran;

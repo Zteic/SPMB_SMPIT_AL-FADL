@@ -332,3 +332,4 @@ public class BiodataSiswa implements Serializable {
         this.statusData = statusData;
     }
 }
+

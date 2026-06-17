@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 /**
- * @author Rivaldi
  * Dioptimalkan dengan dukungan Background Transparan (Alpha channel)
  */
 public class CustomButton extends JButton {

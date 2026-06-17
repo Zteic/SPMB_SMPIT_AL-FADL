@@ -2,21 +2,16 @@ package models;
 
 import java.io.Serializable;
 
-/**
- * @author Rivaldi
- * File: TahunAjaran.java
- * Fungsi: Model data Tahun Ajaran (Tipe data status_aktif disinkronkan dengan INT Database)
- */
 public class TahunAjaran implements Serializable {
 
     private int idTahun;
     private String tahunAjaran;
-    private int statusAktif; // 🎯 REVISI: Diubah dari String menjadi int agar klop dengan database
+    private int statusAktif;
 
     public TahunAjaran() {
     }
 
-    public TahunAjaran(int idTahun, String tahunAjaran, int statusAktif) { // 🎯 REVISI: Parameter memakai int
+    public TahunAjaran(int idTahun, String tahunAjaran, int statusAktif) {
         this.idTahun = idTahun;
         this.tahunAjaran = tahunAjaran;
         this.statusAktif = statusAktif;
@@ -38,12 +33,10 @@ public class TahunAjaran implements Serializable {
         this.tahunAjaran = tahunAjaran;
     }
 
-    // 🎯 REVISI: Getter mengembalikan tipe data int
     public int getStatusAktif() {
         return statusAktif;
     }
 
-    // 🎯 REVISI: Setter menerima parameter bertipe int
     public void setStatusAktif(int statusAktif) {
         this.statusAktif = statusAktif;
     }

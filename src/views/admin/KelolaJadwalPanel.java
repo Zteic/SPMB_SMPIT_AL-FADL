@@ -14,7 +14,6 @@ import java.sql.*;
 import java.util.Vector;
 
 /**
- * @author Rivaldi
  * File: KelolaJadwalPanel.java
  * Fungsi: Antarmuka Manajemen Data Operasional Jadwal Ujian PPDB (Modern UI 2026 Edition)
  */

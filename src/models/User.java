@@ -3,47 +3,24 @@ package models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * @author Rivaldi
- * File: User.java
- * Fungsi: Model utama user untuk autentikasi & role system (SPMB Core)
- */
 public class User implements Serializable {
 
-    // =========================
-    // PRIMARY KEY
-    // =========================
     private int idUser;
-
-    // =========================
-    // AUTH DATA
-    // =========================
     private String username;
     private String passwordHash;
     private String role;
     private String status;
-
-    // =========================
-    // PROFILE DATA
-    // =========================
     private String namaLengkap;
     private String email;
     private String noHp;
-
-    // =========================
-    // SYSTEM TRACKING
-    // =========================
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    // =========================
-    // CONSTRUCTOR
-    // =========================
     public User() {
-        // default constructor
     }
 
-    public User(int idUser, String username, String passwordHash, String namaLengkap, String role, String status) {
+    public User(int idUser, String username, String passwordHash, 
+                String namaLengkap, String role, String status) {
         this.idUser = idUser;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -52,11 +29,10 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    // FULL CONSTRUCTOR (UNTUK DAO / REPORT / MIGRATION)
-    public User(int idUser, String username, String passwordHash, String namaLengkap,
-                String email, String noHp, String role, String status,
-                Timestamp createdAt, Timestamp updatedAt) {
-
+    public User(int idUser, String username, String passwordHash, 
+                String namaLengkap, String email, String noHp, 
+                String role, String status, Timestamp createdAt, 
+                Timestamp updatedAt) {
         this.idUser = idUser;
         this.username = username;
         this.passwordHash = passwordHash;
@@ -69,9 +45,6 @@ public class User implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    // =========================
-    // GETTER SETTER
-    // =========================
     public int getIdUser() {
         return idUser;
     }

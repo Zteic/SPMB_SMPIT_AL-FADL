@@ -56,3 +56,4 @@ public class Jalur implements Serializable {
         return namaJalur != null ? namaJalur : "";
     }
 }
+

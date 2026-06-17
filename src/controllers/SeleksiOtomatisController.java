@@ -3,23 +3,15 @@ package controllers;
 import config.DatabaseConfig;
 import config.SessionManager;
 
-import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
-/**
- * @author Rivaldi
- * SeleksiOtomatisController (Optimized Architecture Version)
- * SPMB SMPIT AL FADL
- */
 public class SeleksiOtomatisController {
 
-    // ======================================================
-    // 1. ENGINE SELEKSI KELULUSAN OTOMATIS
-    // ======================================================
     public boolean eksekusiSeleksiOtomatis(int passingGrade) {
         Connection conn = DatabaseConfig.getKoneksi();
         if (conn == null) {
@@ -27,11 +19,12 @@ public class SeleksiOtomatisController {
             return false;
         }
 
-        // Kita juga perlu menarik nilai asli (apakah NULL) untuk memvalidasi status keikutsertaan ujian
-        String sqlFetch = "SELECT id_seleksi, nilai_akademik, "
-                        + "((COALESCE(nilai_akademik, 0) + COALESCE(nilai_tahfidz, 0) "
-                        + " + COALESCE(nilai_wawancara, 0) + COALESCE(nilai_domisili, 0)) / 4) AS nilai_kalkulasi "
-                        + "FROM tbl_seleksi ORDER BY nilai_kalkulasi DESC, id_seleksi ASC";
+        String sqlFetch = 
+            "SELECT id_seleksi, nilai_akademik, " +
+            "((COALESCE(nilai_akademik, 0) + COALESCE(nilai_tahfidz, 0) " +
+            " + COALESCE(nilai_wawancara, 0) + COALESCE(nilai_domisili, 0)) / 4) AS nilai_kalkulasi " +
+            "FROM tbl_seleksi " +
+            "ORDER BY nilai_kalkulasi DESC, id_seleksi ASC";
                         
         String sqlUpdate = "UPDATE tbl_seleksi SET ranking = ?, status_kelulusan = ? WHERE id_seleksi = ?";
         String sqlKuota = "SELECT COALESCE(SUM(total_kuota), 0) FROM tbl_kuota";
@@ -46,7 +39,9 @@ public class SeleksiOtomatisController {
                     totalKuota = rsKuota.getInt(1);
                 }
             }
-            if (totalKuota <= 0) totalKuota = 5; 
+            if (totalKuota <= 0) {
+                totalKuota = 5;
+            }
 
             int seatCounter = 0;
             int ranking = 0;
@@ -60,13 +55,9 @@ public class SeleksiOtomatisController {
                     double totalNilai = rs.getDouble("nilai_kalkulasi");
                     String status;
 
-                    // 🎯 FILTER PENGAMAN: Cek apakah siswa ini sebenarnya belum dinilai/belum ujian
-                    // Jika nilai_akademik di database bernilai NULL (rs.wasNull() atau getObject == null)
                     if (rs.getObject("nilai_akademik") == null) {
-                        status = "PROSES"; // Biarkan tetap PROSES, jangan digugurkan dulu!
-                    } 
-                    // Jika sudah ujian, jalankan saringan passing grade & kuota normal
-                    else if (totalNilai >= passingGrade) {
+                        status = "PROSES";
+                    } else if (totalNilai >= passingGrade) {
                         if (seatCounter < totalKuota) {
                             status = "DITERIMA";
                             seatCounter++;
@@ -102,19 +93,19 @@ public class SeleksiOtomatisController {
             try {
                 conn.setAutoCommit(true);
                 conn.close();
-            } catch (SQLException ignore) {}
+            } catch (SQLException ignore) {
+            }
         }
     }
 
-    // ======================================================
-    // 2. ENGINE KUOTA
-    // ======================================================
     public int getTotalKuota() {
         String sql = "SELECT COALESCE(SUM(total_kuota), 0) FROM tbl_kuota";
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[KUOTA ERROR] Gagal ambil total kuota: " + e.getMessage());
         }
@@ -126,22 +117,23 @@ public class SeleksiOtomatisController {
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[KUOTA ERROR] Gagal ambil sisa kuota: " + e.getMessage());
         }
         return 0;
     }
 
-    // ======================================================
-    // 3. DASHBOARD METRICS
-    // ======================================================
     public int getTotalPendaftar() {
         String sql = "SELECT COUNT(*) FROM tbl_siswa";
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[METRIC ERROR] Total pendaftar gagal: " + e.getMessage());
         }
@@ -153,7 +145,9 @@ public class SeleksiOtomatisController {
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[METRIC ERROR] Total diterima gagal: " + e.getMessage());
         }
@@ -165,7 +159,9 @@ public class SeleksiOtomatisController {
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[METRIC ERROR] Total cadangan gagal: " + e.getMessage());
         }
@@ -177,22 +173,22 @@ public class SeleksiOtomatisController {
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) return rs.getInt(1);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             System.err.println("[METRIC ERROR] Total proses gagal: " + e.getMessage());
         }
         return 0;
     }
 
-    // ======================================================
-    // 4. TABEL SELEKSI & FILTER
-    // ======================================================
     public void populateSeleksiTable(DefaultTableModel model, String statusFilter) {
         model.setRowCount(0);
-        String sql = "SELECT sel.id_seleksi, sel.id_siswa, COALESCE(b.nama_lengkap, '-') AS nama_lengkap, "
-                + "sel.total_nilai, sel.ranking, sel.status_kelulusan "
-                + "FROM tbl_seleksi sel "
-                + "LEFT JOIN tbl_biodata_siswa b ON sel.id_siswa = b.id_siswa ";
+        String sql = 
+            "SELECT sel.id_seleksi, sel.id_siswa, COALESCE(b.nama_lengkap, '-') AS nama_lengkap, " +
+            "sel.total_nilai, sel.ranking, sel.status_kelulusan " +
+            "FROM tbl_seleksi sel " +
+            "LEFT JOIN tbl_biodata_siswa b ON sel.id_siswa = b.id_siswa ";
 
         if (statusFilter != null && !statusFilter.equalsIgnoreCase("SEMUA")) {
             sql += "WHERE sel.status_kelulusan = ? ";

@@ -186,7 +186,6 @@ public class AdminMainFrame extends JFrame {
         JPanel schoolInfo = new JPanel(new GridLayout(2, 1, 0, 2));
         schoolInfo.setOpaque(false);
         
-        // 🎯 FIXED GLOBAL INSTANCE: Menggunakan global field variabel
         lblSekolah = new JLabel("SMPIT AL FADL - Admin Dashboard (TA " + teksTahun + ")");
         lblSekolah.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblSekolah.setForeground(CLR_PRIMARY);
@@ -339,7 +338,6 @@ public class AdminMainFrame extends JFrame {
         btnMaster.setForeground(Color.BLACK);
         listMenuPanel.add(btnMaster);
         
-        // 🎯 FIX PRESISI SPACING: Memberikan sela strut (4px) konstan di antara boks tombol baru
         listMenuPanel.add(Box.createVerticalStrut(4));
         btnPengaturanInfo = buatRouterMenuButton("Pengaturan Informasi", e -> showPanel("PANEL_PENGATURAN_INFO"));
         btnPengaturanInfo.setForeground(Color.BLACK);
@@ -1203,7 +1201,6 @@ public class AdminMainFrame extends JFrame {
     }
     
     private void mulaiCountdownSPMB() {
-        // 🎯 FIXED COLUMN NAME: Mengubah 'status' menjadi 'status_operasional' agar selaras dengan skema database terbaru
         String sqlCekConfig = "SELECT tanggal_penutupan FROM tbl_tahun_ajaran WHERE UPPER(status_operasional) = 'AKTIF' LIMIT 1";
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sqlCekConfig);

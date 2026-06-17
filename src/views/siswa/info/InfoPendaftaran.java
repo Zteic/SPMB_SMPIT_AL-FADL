@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 /**
- * @author Rivaldi
  */
 public class InfoPendaftaran extends JFrame {
 
