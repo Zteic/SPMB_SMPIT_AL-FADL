@@ -476,66 +476,69 @@ public class KelolaBerkasPanel extends JPanel {
     }
 
     private void loadRiwayat() {
-        if (!SessionManager.isLoggedIn()) return;
+        // 🎯 PERBAIKAN: Memastikan session menggunakan package config
+        if (!config.SessionManager.isLoggedIn()) return;
 
         try (Connection conn = DatabaseConfig.getKoneksi()) {
             int idSiswa = getIdSiswa(conn);
             if (idSiswa == -1) return;
 
-            boolean adaPetugasColumn = false;
-            boolean adaTanggalVerifColumn = false;
-            
-            try {
-                DatabaseMetaData meta = conn.getMetaData();
-                try (ResultSet columns = meta.getColumns(null, null, "tbl_berkas", null)) {
-                    while (columns.next()) {
-                        String columnName = columns.getString("COLUMN_NAME");
-                        if ("petugas_verifikasi".equalsIgnoreCase(columnName)) adaPetugasColumn = true;
-                        if ("tanggal_verifikasi".equalsIgnoreCase(columnName)) adaTanggalVerifColumn = true;
-                    }
-                }
-            } catch (Exception ignored) {}
-
+            // Query yang membaca kolom petugas_verifikasi, tanggal_verifikasi, dan alasan_ditolak
             String sql = "SELECT jenis_berkas, tanggal_upload, status, " +
-                         "COALESCE(catatan_verifikator, '-') AS catatan ";
-                         
-            if (adaPetugasColumn) sql += ", COALESCE(petugas_verifikasi, '-') AS verifikator ";
-            if (adaTanggalVerifColumn) sql += ", COALESCE(tanggal_verifikasi, NULL) AS tgl_verif ";
-            
-            sql += "FROM tbl_berkas WHERE id_siswa = ? ORDER BY tanggal_upload DESC";
+                         "IFNULL(petugas_verifikasi, '-') AS verifikator, " +
+                         "tanggal_verifikasi AS tgl_verif, " +
+                         "IFNULL(alasan_ditolak, '-') AS catatan " + 
+                         "FROM tbl_berkas WHERE id_siswa = ? ORDER BY tanggal_upload DESC";
                          
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
                 ps.setInt(1, idSiswa);
                 try (ResultSet rs = ps.executeQuery()) {
                     List<Object[]> rows = new ArrayList<>();
+                    java.text.SimpleDateFormat sdfTabel = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    
                     while (rs.next()) {
-                        String vName = adaPetugasColumn ? rs.getString("verifikator") : "-";
+                        String uploadTime = "-";
+                        if (rs.getTimestamp("tanggal_upload") != null) {
+                            uploadTime = sdfTabel.format(rs.getTimestamp("tanggal_upload"));
+                        }
+                        
+                        // 🎯 PERBAIKAN UTAMA: Ambil nilai kolom verifikator hasil alias query di atas
+                        String vName = rs.getString("verifikator");
+                        if (vName == null || vName.trim().isEmpty()) {
+                            vName = "-";
+                        }
+                        
+                        // 🎯 PERBAIKAN UTAMA: Ambil nilai tgl_verif dan format ke String agar tidak null/kosong
                         String vTime = "-";
-                        if (adaTanggalVerifColumn && rs.getTimestamp("tgl_verif") != null) {
-                            vTime = rs.getTimestamp("tgl_verif").toString();
+                        java.sql.Timestamp tsVerif = rs.getTimestamp("tgl_verif");
+                        if (tsVerif != null) {
+                            vTime = sdfTabel.format(tsVerif);
                         }
 
                         rows.add(new Object[]{
                                 rs.getString("jenis_berkas"),
-                                rs.getTimestamp("tanggal_upload") != null ? rs.getTimestamp("tanggal_upload").toString() : "-",
-                                mapStatus(rs.getString("status")),
-                                vName,
-                                vTime,
-                                rs.getString("catatan")
+                                uploadTime,
+                                rs.getString("status"),
+                                vName,                  // Kolom 4: Nama Verifikator
+                                vTime,                  // Kolom 5: Tanggal Verifikasi
+                                rs.getString("catatan") // Kolom 6: Catatan Admin
                         });
                     }
+                    
                     SwingUtilities.invokeLater(() -> {
                         riwModel.setRowCount(0);
                         if (rows.isEmpty()) {
                             riwModel.addRow(new Object[]{"Belum ada riwayat verifikasi.", "-", "-", "-", "-", "-"});
                         } else {
-                            for (Object[] r : rows) riwModel.addRow(r);
+                            for (Object[] r : rows) {
+                                riwModel.addRow(r);
+                            }
                         }
                     });
                 }
             }
         } catch (SQLException e) {
-            // SQL Exception diredam aman
+            e.printStackTrace();
         }
     }
 

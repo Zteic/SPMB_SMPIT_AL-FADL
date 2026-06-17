@@ -1,6 +1,7 @@
 package views.admin;
 
 import config.DatabaseConfig;
+import config.SessionManager;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
+
 
 /**
  * Manajemen Verifikasi Berkas Dokumen dengan Filter Kategori, Pewarnaan Status, dan Cloud Preview Biner.
@@ -396,24 +398,40 @@ public class BerkasVerifikasiPanel extends JPanel {
         });
 
         btnApprove.addActionListener(ev -> {
-            boolean statusSukses = eksekusiUpdateStatusDatabase(noDaftar, jenisDokumen, "DIVERIFIKASI", txtCatatan.getText());
+            String catatan = txtCatatan.getText();
+            // 🎯 LOG INSPEKSI: Menampilkan data sesaat sebelum masuk database
+            System.out.println("[INFO AKSI] Tombol Approve diklik untuk nomor: " + noDaftar);
+            
+            boolean statusSukses = eksekusiUpdateStatusDatabase(noDaftar, jenisDokumen, "DIVERIFIKASI", catatan);
             if (statusSukses) {
-                JOptionPane.showMessageDialog(dlg, "Berkas [" + jenisDokumen + "] berhasil disetujui!", "Approve Sukses", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(dlg, 
+                    "Berkas [" + jenisDokumen + "] berhasil disetujui!\n" +
+                    "Sistem telah mencoba memperbarui Verifikator & Waktu saat ini.", 
+                    "Approve Sukses", JOptionPane.INFORMATION_MESSAGE);
                 dlg.dispose();
-                loadBerkasData();
+                loadBerkasData(); // Refresh grid admin
+            } else {
+                JOptionPane.showMessageDialog(dlg, "Gagal mengupdate database berkas! Cek log konsol NetBeans.", "Error Database", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         btnReject.addActionListener(ev -> {
-            if (txtCatatan.getText().trim().isEmpty()) {
+            String catatan = txtCatatan.getText();
+            if (catatan.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(dlg, "Alasan penolakan / catatan revisi wajib diisi agar dipahami siswa!", "Validasi Gagal", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            boolean statusSukses = eksekusiUpdateStatusDatabase(noDaftar, jenisDokumen, "DITOLAK", txtCatatan.getText());
+            
+            // 🎯 LOG INSPEKSI: Menampilkan data sesaat sebelum masuk database
+            System.out.println("[INFO AKSI] Tombol Reject diklik untuk nomor: " + noDaftar);
+            
+            boolean statusSukses = eksekusiUpdateStatusDatabase(noDaftar, jenisDokumen, "DITOLAK", catatan);
             if (statusSukses) {
                 JOptionPane.showMessageDialog(dlg, "Berkas pendaftaran ditolak. Catatan revisi sukses dikirim ke siswa.", "Reject Sukses", JOptionPane.INFORMATION_MESSAGE);
                 dlg.dispose();
-                loadBerkasData();
+                loadBerkasData(); // Refresh grid admin
+            } else {
+                JOptionPane.showMessageDialog(dlg, "Gagal mengupdate database berkas! Cek log konsol NetBeans.", "Error Database", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -510,21 +528,46 @@ public class BerkasVerifikasiPanel extends JPanel {
     }
 
     private boolean eksekusiUpdateStatusDatabase(String nomorPendaftaran, String jenisBerkas, String statusBaru, String notesPanitia) {
-        String sql = 
-                "UPDATE tbl_berkas SET status = ?, alasan_ditolak = ?, tanggal_upload = NOW() " +
-                "WHERE jenis_berkas = ? AND id_siswa = (SELECT id_siswa FROM tbl_siswa WHERE nomor_pendaftaran = ? LIMIT 1)";
+        String namaPetugas = "Admin Panitia"; // Default jika session kosong
+        try {
+            if (config.SessionManager.isLoggedIn() && config.SessionManager.getCurrentUser() != null) {
+                String namaSession = config.SessionManager.getCurrentUser().getNamaLengkap();
+                if (namaSession != null && !namaSession.trim().isEmpty()) {
+                    namaPetugas = namaSession;
+                } else {
+                    namaPetugas = config.SessionManager.getCurrentUser().getUsername();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("[DEBUG SESSION] Gagal mengambil data user session: " + e.getMessage());
+        }
+
+        // Query wajib mengupdate 4 kolom utama: status, alasan_ditolak, petugas_verifikasi, tanggal_verifikasi
+        String sql = "UPDATE tbl_berkas SET status = ?, alasan_ditolak = ?, petugas_verifikasi = ?, tanggal_verifikasi = NOW() " +
+                     "WHERE jenis_berkas = ? AND id_siswa = (SELECT id_siswa FROM tbl_siswa WHERE nomor_pendaftaran = ? LIMIT 1)";
         
         try (Connection conn = DatabaseConfig.getKoneksi();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             
             ps.setString(1, statusBaru);
-            ps.setString(2, notesPanitia.trim().isEmpty() ? null : notesPanitia.trim());
-            ps.setString(3, jenisBerkas);
-            ps.setString(4, nomorPendaftaran);
+            ps.setString(2, notesPanitia.trim().isEmpty() ? "-" : notesPanitia.trim());
+            ps.setString(3, namaPetugas); 
+            ps.setString(4, jenisBerkas);
+            ps.setString(5, nomorPendaftaran);
             
-            return ps.executeUpdate() > 0;
+            int rowsUpdated = ps.executeUpdate();
+            
+            // 🎯 LIHAT OUTPUT INI DI KONSOL NETBEANS SAAT ANDA KLIK TOMBOL VERIFIKASI:
+            System.out.println("========================================================");
+            System.out.println("[DATABASE SUKSES] Baris ter-update: " + rowsUpdated);
+            System.out.println("[DATA TERKIRIM] Petugas: " + namaPetugas + " | Catatan: " + notesPanitia);
+            System.out.println("========================================================");
+            
+            return rowsUpdated > 0;
             
         } catch (SQLException e) {
+            System.out.println("[CRITICAL ERROR] Terjadi kesalahan query database pada admin!");
+            e.printStackTrace(); 
             return false;
         }
     }
