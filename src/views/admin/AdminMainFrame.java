@@ -301,8 +301,8 @@ public class AdminMainFrame extends JFrame {
 
         listMenuPanel.add(Box.createVerticalStrut(4));
         JButton btnPendaftarYatim = buatRouterMenuButton("Pendaftar Yatim", e -> {
-            viewPendaftarYatim.loadData();
-            showPanel("PANEL_YATIM");
+        viewPendaftarYatim.searchPendaftar("Yatim");
+        showPanel("PANEL_YATIM");
         });
         btnPendaftarYatim.setForeground(Color.BLACK);
         listMenuPanel.add(btnPendaftarYatim);

@@ -216,7 +216,7 @@ public class DashboardSiswaPanel extends JPanel {
 
         CustomButton btnUploadFoto = new CustomButton("Unggah Foto", PRIMARY, WHITE);
         btnUploadFoto.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btnUploadFoto.setForeground(Color.BLACK);
+        btnUploadFoto.setForeground(Color.WHITE);
         btnUploadFoto.setRadius(6);
         btnUploadFoto.setPreferredSize(new Dimension(95, 20));
         btnUploadFoto.addActionListener(e -> aksiProsesUploadPasFotoSiswa());
@@ -457,7 +457,7 @@ public class DashboardSiswaPanel extends JPanel {
 
         CustomButton btnLihat = new CustomButton("Lihat Formulir", PRIMARY, WHITE);
         btnLihat.setFont(FONT_SMALL); 
-        btnLihat.setForeground(Color.BLACK);
+        btnLihat.setForeground(Color.WHITE);
         btnLihat.setRadius(8);
         btnLihat.addActionListener(e -> dialogLihatFormulirReadonly());
         
@@ -494,7 +494,7 @@ public class DashboardSiswaPanel extends JPanel {
         String txtBtn = "DITOLAK".equalsIgnoreCase(status) ? "Perbaiki Berkas" : "Kelola Berkas";
         CustomButton btnAction = new CustomButton(txtBtn, colors[0], WHITE);
         btnAction.setFont(FONT_SMALL); 
-        btnAction.setForeground(Color.BLACK);
+        btnAction.setForeground(Color.WHITE);
         btnAction.setRadius(8);
         btnAction.addActionListener(e -> handleQuickAction("BERKAS"));
         card.add(btnAction, BorderLayout.SOUTH);
@@ -572,7 +572,7 @@ public class DashboardSiswaPanel extends JPanel {
             
             CustomButton btnLihat = new CustomButton("Lihat Bukti", BIRU, WHITE);
             btnLihat.setFont(FONT_SMALL); 
-            btnLihat.setForeground(Color.BLACK);
+            btnLihat.setForeground(Color.WHITE);
             btnLihat.setRadius(8);
             
             final String fileTarget = buktiFileServer;
@@ -584,7 +584,7 @@ public class DashboardSiswaPanel extends JPanel {
             
             CustomButton btnKanan = new CustomButton(textKanan, warnaKanan, WHITE);
             btnKanan.setFont(FONT_SMALL); 
-            btnKanan.setForeground(Color.BLACK);
+            btnKanan.setForeground(Color.WHITE);
             btnKanan.setRadius(8);
             btnKanan.addActionListener(e -> {
                 if ("LUNAS".equalsIgnoreCase(status)) {
@@ -672,7 +672,7 @@ public class DashboardSiswaPanel extends JPanel {
 
         CustomButton btnAction = new CustomButton("Lihat Detail Hasil", warnaUngu, WHITE);
         btnAction.setFont(FONT_SMALL); 
-        btnAction.setForeground(Color.BLACK);
+        btnAction.setForeground(Color.WHITE);
         btnAction.setRadius(8);
         btnAction.addActionListener(e -> dialogBukaHalamanHasilSeleksi());
         card.add(btnAction, BorderLayout.SOUTH);
@@ -698,7 +698,7 @@ public class DashboardSiswaPanel extends JPanel {
         if ("BELUM_DAFTAR_ULANG".equalsIgnoreCase(status) || "Belum Daftar Ulang".equalsIgnoreCase(status)) {
             CustomButton btnDU = new CustomButton("Mulai Daftar Ulang", HIJAU, WHITE);
             btnDU.setFont(FONT_SMALL); 
-            btnDU.setForeground(Color.BLACK);
+            btnDU.setForeground(Color.WHITE);
             btnDU.setRadius(8);
             btnDU.addActionListener(e -> bukaWizardDaftarUlangSiswa());
             card.add(btnDU, BorderLayout.SOUTH);

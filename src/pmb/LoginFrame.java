@@ -150,7 +150,7 @@ public class LoginFrame extends JFrame {
         btnLogin.setRadius(16);
         btnLogin.setHoverColor(clrHijauHover);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnLogin.setForeground(Color.BLACK);
+        btnLogin.setForeground(Color.WHITE);
         btnLogin.addActionListener(e -> aksiLogin());
         cardContainer.add(btnLogin);
 
