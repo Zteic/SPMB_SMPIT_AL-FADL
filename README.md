@@ -42,6 +42,10 @@ Aplikasi Desktop Pendaftaran dan Seleksi Murid Baru Berbasis **Java Swing (Deskt
 4. Klik kanan pada nama proyek di panel sebelah kiri, lalu pilih **Clean and Build** (`Shift + F11`)[cite: 1].
 5. Tekan tombol **Run** (`F6`) untuk menjalankan aplikasi[cite: 1].
 
+### 3. Login Account Admin
+1. Username - superadmin
+2. Password - admin123
+
 ---
 
 ## 👨‍💻 Kontributor & Hak Cipta
